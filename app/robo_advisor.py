@@ -50,15 +50,16 @@ csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 with open(csv_file_path, "w") as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
     writer.writeheader()
-    #will need looping
-    writer.writerow({
-        "timestamp": "todo",
-        "open":"todo",
-        "high":"todo",
-        "low":"todo",
-        "close":"todo",
-        "volume":"todo",
-        })
+    for date in dates:
+        daily_pries = tsd[date]
+        writer.writerow({
+            "timestamp": date,
+            "open": daily_pries["1. open"],
+            "high": daily_pries["2. high"],
+            "low": daily_pries["3. low"],
+            "close": daily_pries["4. close"],
+            "volume": daily_pries["5. volume"],
+            })
 
 #INFO OUTPUTS
 
