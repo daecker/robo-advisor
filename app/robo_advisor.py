@@ -3,7 +3,7 @@
 import csv
 import json
 import os
-
+import datetime
 import requests
 
 from dotenv import load_dotenv
@@ -13,19 +13,22 @@ load_dotenv()
 def to_usd(my_price):
     return "${0:.2f}".format(my_price)
 
+ALPHAVANTAGE_API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", "OOPS, please set env var called 'ALPHAVANTAGE_API_KEY'")
+
+date_start = datetime.datetime.now()
+formated_date_start = date_start.strftime("%Y-%m-%d %I:%M %p")
 
 #INFO INPUTS
 
-stock_symbol = input("Please Enter a Valid Stock Symbol: ")
-ALPHAVANTAGE_API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", "OOPS, please set env var called 'ALPHAVANTAGE_API_KEY'")
+while True:
+    stock_symbol = input("Please Enter a Valid Stock Symbol: ")
+    request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_symbol+"&"+"apikey="+ALPHAVANTAGE_API_KEY
+    response = requests.get(request_url)
+    if 'Error' in response.text:
+        print("You entered an invalid stock symbol. Please try again ")
+    else:
+        break
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_symbol+"&"+"apikey="+ALPHAVANTAGE_API_KEY
-
-
-response = requests.get(request_url)
-#print(type(response))
-#print(response.status_code)
-#print(response.text)
 
 parsed_response = json.loads(response.text) #convert response variable from a string to a dictionary
 
@@ -70,17 +73,17 @@ with open(csv_file_path, "w") as csv_file:
 
 #INFO OUTPUTS
 
-#print("-------------------------")
-#print("SELECTED SYMBOL: XYZ")
-#print("-------------------------")
-#print("REQUESTING STOCK MARKET DATA...") 
-#print("REQUEST AT: 2018-02-20 02:00pm") #look at shopping cart
-#print("-------------------------")
+print("-------------------------")
+print("SELECTED SYMBOL: " + stock_symbol)
+print("-------------------------")
+print("REQUESTING STOCK MARKET DATA...") 
+print("REQUEST AT: " + formated_date_start) #look at shopping cart
+print("-------------------------")
 print("LATEST DAY: " + last_refreshed)
 print("LATEST CLOSE: " + to_usd(float(latest_close)))
 print("RECENT HIGH: " + to_usd(float(recent_high)))
 print("RECENT LOW: " + to_usd(float(recent_low)))
-#print("-------------------------")
+print("-------------------------")
 #print("RECOMMENDATION: BUY!")
 #print("RECOMMENDATION REASON: TODO")
 #print("-------------------------")
