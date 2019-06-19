@@ -24,6 +24,13 @@ dates = list(tsd.keys()) #TODO need to sort to ensure latest day is first
 latest_day = dates[0] #pulls latest day 
 latest_close = tsd[latest_day]["4. close"]
 
+#recent_high = max of all high prices
+high_prices = []
+
+for date in dates:
+    high_price = tsd[date]["2. high"]
+    high_prices.append(float(high_price))
+recent_high = max(high_prices)
 
 def to_usd(my_price):
     return "${0:.2f}".format(my_price)
@@ -38,7 +45,7 @@ def to_usd(my_price):
 #print("-------------------------")
 print("LATEST DAY: " + last_refreshed)
 print("LATEST CLOSE: " + to_usd(float(latest_close)))
-#print("RECENT HIGH: $101,000.00")
+print("RECENT HIGH: " + to_usd(float(recent_high)))
 #print("RECENT LOW: $99,000.00")
 #print("-------------------------")
 #print("RECOMMENDATION: BUY!")
