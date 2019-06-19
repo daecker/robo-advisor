@@ -1,5 +1,8 @@
 # app/robo_advisor.py
 
+import os
+
+
 print("-------------------------")
 print("SELECTED SYMBOL: XYZ")
 print("-------------------------")
