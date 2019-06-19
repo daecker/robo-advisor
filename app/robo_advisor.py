@@ -18,7 +18,11 @@ print(response.text)
 parsed_response = json.loads(response.text) #convert response variable from a string to a dictionary
 
 last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
-latest_close = parsed_response["Time Series (Daily)"]["2019-02-20"]["4. close"]
+
+tsd = parsed_response["Time Series (Daily)"]
+dates = list(tsd.keys()) #TODO need to sort to ensure latest day is first
+latest_day = dates[0] #pulls latest day 
+latest_close = tsd[latest_day]["4. close"]
 
 
 def to_usd(my_price):
