@@ -1,9 +1,14 @@
 # app/robo_advisor.py
 
-import requests
+import csv
 import json
+import os
+
+import requests
 
 
+def to_usd(my_price):
+    return "${0:.2f}".format(my_price)
 
 
 #INFO INPUTS
@@ -37,16 +42,22 @@ for date in dates:
 recent_high = max(high_prices)
 recent_low = min(low_prices)
 
-def to_usd(my_price):
-    return "${0:.2f}".format(my_price)
+
+
+csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+
+with open(csv_file_path, "w") as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=["city","name"])
+    writer.writeheader()
+    writer.writerow({"city": "New York", "name": "Yankees"})
 
 #INFO OUTPUTS
 
 #print("-------------------------")
 #print("SELECTED SYMBOL: XYZ")
 #print("-------------------------")
-#print("REQUESTING STOCK MARKET DATA...") #look at shopping cart
-#print("REQUEST AT: 2018-02-20 02:00pm")
+#print("REQUESTING STOCK MARKET DATA...") 
+#print("REQUEST AT: 2018-02-20 02:00pm") #look at shopping cart
 #print("-------------------------")
 print("LATEST DAY: " + last_refreshed)
 print("LATEST CLOSE: " + to_usd(float(latest_close)))
@@ -56,5 +67,8 @@ print("RECENT LOW: " + to_usd(float(recent_low)))
 #print("RECOMMENDATION: BUY!")
 #print("RECOMMENDATION REASON: TODO")
 #print("-------------------------")
+print("WRITING DATA TO " + csv_file_path) #use pandas package
+print("-------------------------")
 #print("HAPPY INVESTING!")
 #print("-------------------------")
+
