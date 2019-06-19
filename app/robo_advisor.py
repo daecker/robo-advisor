@@ -6,6 +6,9 @@ import os
 
 import requests
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def to_usd(my_price):
     return "${0:.2f}".format(my_price)
@@ -13,7 +16,11 @@ def to_usd(my_price):
 
 #INFO INPUTS
 
-request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo"
+stock_symbol = input("Please Enter a Valid Stock Symbol: ")
+ALPHAVANTAGE_API_KEY = os.environ.get("ALPHAVANTAGE_API_KEY", "OOPS, please set env var called 'ALPHAVANTAGE_API_KEY'")
+
+request_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+stock_symbol+"&"+"apikey="+ALPHAVANTAGE_API_KEY
+
 
 response = requests.get(request_url)
 #print(type(response))
