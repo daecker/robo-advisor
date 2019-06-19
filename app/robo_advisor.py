@@ -45,11 +45,20 @@ recent_low = min(low_prices)
 
 
 csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", "prices.csv")
+csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
 
 with open(csv_file_path, "w") as csv_file:
-    writer = csv.DictWriter(csv_file, fieldnames=["city","name"])
+    writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
     writer.writeheader()
-    writer.writerow({"city": "New York", "name": "Yankees"})
+    #will need looping
+    writer.writerow({
+        "timestamp": "todo",
+        "open":"todo",
+        "high":"todo",
+        "low":"todo",
+        "close":"todo",
+        "volume":"todo",
+        })
 
 #INFO OUTPUTS
 
