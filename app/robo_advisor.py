@@ -99,9 +99,10 @@ if average_close > float(latest_close):
 else:
     print("RECOMMENDATION: SELL!")
     print("RECOMMENDATION REASON: The stock is over valued. The average close price is lower than the most recent close price")
-#print("-------------------------")
+
+print("-------------------------")
 print("WRITING DATA TO " + csv_file_path)
 print("-------------------------")
-#print("HAPPY INVESTING!")
-#print("-------------------------")
+print("HAPPY INVESTING!")
+print("-------------------------")
 
