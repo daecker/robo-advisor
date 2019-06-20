@@ -36,21 +36,28 @@ last_refreshed = parsed_response["Meta Data"]["3. Last Refreshed"]
 
 tsd = parsed_response["Time Series (Daily)"]
 dates = list(tsd.keys()) #TODO need to sort to ensure latest day is first
-latest_day = dates[0] #pulls latest day 
+sorted_dates = sorted(dates, reverse=True)
+latest_day = sorted_dates[0] #pulls latest day 
+#print("LATEST DAY", latest_day) #use print to test the sorting function
 latest_close = tsd[latest_day]["4. close"]
+
 
 #recent_high = max of all high prices
 high_prices = []
 low_prices = []
+close_prices = []
 
 for date in dates:
     high_price = tsd[date]["2. high"]
     high_prices.append(float(high_price))
     low_price = tsd[date]["3. low"]
     low_prices.append(float(low_price))
+    close_price = tsd[date]["4. close"]
+    close_prices.append(float(close_price))
     
 recent_high = max(high_prices)
 recent_low = min(low_prices)
+average_close = sum(close_prices)/len(close_prices)
 
 
 
@@ -77,17 +84,23 @@ print("-------------------------")
 print("SELECTED SYMBOL: " + stock_symbol)
 print("-------------------------")
 print("REQUESTING STOCK MARKET DATA...") 
-print("REQUEST AT: " + formated_date_start) #look at shopping cart
+print("REQUEST AT: " + formated_date_start)
 print("-------------------------")
-print("LATEST DAY: " + last_refreshed)
+print("DATA LAST REFRESHED: " + last_refreshed)
 print("LATEST CLOSE: " + to_usd(float(latest_close)))
 print("RECENT HIGH: " + to_usd(float(recent_high)))
 print("RECENT LOW: " + to_usd(float(recent_low)))
 print("-------------------------")
-#print("RECOMMENDATION: BUY!")
-#print("RECOMMENDATION REASON: TODO")
+
+#RECOMMENDATION
+if average_close > float(latest_close):
+    print("RECOMMENDATION: BUY!")
+    print("RECOMMENDATION REASON: The average close price is greater than the most recent close price")
+else:
+    print("RECOMMENDATION: SELL!")
+    print("RECOMMENDATION REASON: The stock is over valued. The average close price is lower than the most recent close price")
 #print("-------------------------")
-print("WRITING DATA TO " + csv_file_path) #use pandas package
+print("WRITING DATA TO " + csv_file_path)
 print("-------------------------")
 #print("HAPPY INVESTING!")
 #print("-------------------------")
